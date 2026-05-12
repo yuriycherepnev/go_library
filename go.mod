@@ -1,3 +1,5 @@
-module github.com/YOUR-USER-OR-ORG-NAME/YOUR-REPO-NAME
+module ca-template
 
-go 1.19
+go 1.26
+
+require github.com/julienschmidt/httprouter v1.3.0
