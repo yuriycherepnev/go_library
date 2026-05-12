@@ -1,9 +1,9 @@
 package author
 
 import (
-	"ca-template/internal/adapters"
-	"ca-template/internal/domain/author"
 	"github.com/julienschmidt/httprouter"
+	"go-library/internal/adapters"
+	"go-library/internal/usecase/author"
 	"net/http"
 )
 

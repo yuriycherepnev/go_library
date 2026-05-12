@@ -7,13 +7,13 @@ https://www.youtube.com/watch?v=PqQyCFygiZg&t=16s
 мой код надо будет адаптировать под mysql
 */
 
-package cmd
+package main
 
 import (
-	authorStorage "ca-template/internal/adapters/db/author"
-	bookStorage "ca-template/internal/adapters/db/book"
-	authorService "ca-template/internal/domain/author"
-	bookService "ca-template/internal/domain/book"
+	authorStorage "go-library/internal/adapters/db/author"
+	bookStorage "go-library/internal/adapters/db/book"
+	authorService "go-library/internal/usecase/author"
+	bookService "go-library/internal/usecase/book"
 )
 
 func main() {

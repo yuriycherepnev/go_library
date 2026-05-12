@@ -1,4 +1,4 @@
-module ca-template
+module go-library
 
 go 1.26
 

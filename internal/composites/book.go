@@ -1,21 +1,21 @@
 package composites
 
 import (
-	"ca-template/internal/adapters"
-	"ca-template/internal/adapters/api/book"
-	bookStorage "ca-template/internal/adapters/db/book"
-	bookService "ca-template/internal/domain/book"
+	"go-library/internal/adapters"
+	"go-library/internal/adapters/api/book"
+	bookStorage "go-library/internal/adapters/db/book"
+	book2 "go-library/internal/usecase/book"
 )
 
 type BookComposite struct {
-	Storage bookService.Storage
-	Service bookService.Service
+	Storage book2.Storage
+	Service book2.Service
 	Handler adapters.Handler
 }
 
 func NewBookComposite() (*BookComposite, error) {
 	storage := bookStorage.NewStorage()
-	service := bookService.NewService(storage)
+	service := book2.NewService(storage)
 	handler := book.NewHandler(service)
 
 	return &BookComposite{

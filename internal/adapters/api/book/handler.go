@@ -1,9 +1,9 @@
 package book
 
 import (
-	"ca-template/internal/adapters"
-	"ca-template/internal/domain/book"
 	"github.com/julienschmidt/httprouter"
+	"go-library/internal/adapters"
+	"go-library/internal/usecase/book"
 	"net/http"
 )
 

@@ -1,8 +1,9 @@
 package book
 
 import (
-	"ca-template/internal/domain/author"
 	"context"
+	bookEntity "go-library/internal/entity"
+	"go-library/internal/usecase/author"
 )
 
 // Service - useCase
@@ -16,7 +17,7 @@ func NewService(storage Storage) Service {
 	return &service{storage: storage}
 }
 
-func (s *service) Create(ctx context.Context, request CreateBookDTO) *Book {
+func (s *service) Create(ctx context.Context, request CreateBookDTO) *bookEntity.Book {
 	authorModel := s.authorService.GetByUUID(ctx, request.AuthorUUID)
 	if authorModel {
 		return nil
@@ -25,10 +26,10 @@ func (s *service) Create(ctx context.Context, request CreateBookDTO) *Book {
 	return nil
 }
 
-func (s *service) GetByUUID(ctx context.Context, uuid string) *Book {
+func (s *service) GetByUUID(ctx context.Context, uuid string) *bookEntity.Book {
 	return s.storage.GetOne(uuid)
 }
 
-func (s *service) GetAll(ctx context.Context, limit int, offset int) []*Book {
+func (s *service) GetAll(ctx context.Context, limit int, offset int) []*bookEntity.Book {
 	return s.storage.GetAll(limit, offset)
 }
