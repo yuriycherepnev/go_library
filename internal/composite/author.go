@@ -5,17 +5,16 @@ import (
 	"go-library/internal/adapters/api/author"
 	authorStorage "go-library/internal/adapters/db/author"
 	author2 "go-library/internal/usecase/author"
-	"go-library/internal/usecase/book"
 )
 
 type AuthorComposite struct {
-	Storage book.Storage
+	Storage author2.Storage
 	Service author2.Service
 	Handler adapters.Handler
 }
 
-func NewAuthorComposite() (*AuthorComposite, error) {
-	storage := authorStorage.NewStorage()
+func NewAuthorComposite(composite *MysqlComposite) (*AuthorComposite, error) {
+	storage := authorStorage.NewStorage(composite.db)
 	service := author2.NewService(storage)
 	handler := author.NewHandler(service)
 

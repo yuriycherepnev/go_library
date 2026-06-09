@@ -13,8 +13,8 @@ type BookComposite struct {
 	Handler adapters.Handler
 }
 
-func NewBookComposite(composites MysqlComposite) (*BookComposite, error) {
-	storage := bookStorage.NewStorage()
+func NewBookComposite(composite *MysqlComposite) (*BookComposite, error) {
+	storage := bookStorage.NewStorage(composite.db)
 	service := book2.NewService(storage)
 	handler := book.NewHandler(service)
 

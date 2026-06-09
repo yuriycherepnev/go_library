@@ -10,17 +10,35 @@ https://www.youtube.com/watch?v=PqQyCFygiZg&t=16s
 package main
 
 import (
-	authorStorage "go-library/internal/adapters/db/author"
-	bookStorage "go-library/internal/adapters/db/book"
-	authorService "go-library/internal/usecase/author"
-	bookService "go-library/internal/usecase/book"
+	"context"
+	"fmt"
+	"github.com/julienschmidt/httprouter"
+	config "go-library/configs"
+	"go-library/internal/composite"
 )
 
 func main() {
-	book := bookStorage.NewStorage()
-	author := authorStorage.NewStorage()
+	cfg := config.GetConfig()
+	mysqlComposite, err := composite.NewMysqlComposite(
+		context.Background(),
+		cfg.MySQLDb.Host,
+		cfg.MySQLDb.Port,
+		cfg.MySQLDb.User,
+		cfg.MySQLDb.Password,
+		cfg.MySQLDb.DBName)
 
-	bookUseCase := bookService.NewService(book)
-	authorUseCase := authorService.NewService(author)
+	if err != nil {
+		fmt.Println("aloha")
+	}
+
+	router := httprouter.New()
+
+	authorComposite, err := composite.NewAuthorComposite(mysqlComposite)
+
+	if err != nil {
+		fmt.Println("aloha")
+	}
+
+	bookComposite, err := composite.NewBookComposite(mysqlComposite)
 
 }
