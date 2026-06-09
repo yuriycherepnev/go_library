@@ -11,14 +11,16 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/julienschmidt/httprouter"
 	config "go-library/configs"
 	"go-library/internal/composite"
+	logger "go-library/pkg/logging"
 )
 
 func main() {
 	cfg := config.GetConfig()
+	log := logger.GetLogger()
+
 	mysqlComposite, err := composite.NewMysqlComposite(
 		context.Background(),
 		cfg.MySQLDb.Host,
@@ -28,17 +30,21 @@ func main() {
 		cfg.MySQLDb.DBName)
 
 	if err != nil {
-		fmt.Println("aloha")
+		log.Error.Println("mysql composite failed")
 	}
 
 	router := httprouter.New()
 
 	authorComposite, err := composite.NewAuthorComposite(mysqlComposite)
-
 	if err != nil {
-		fmt.Println("aloha")
+		log.Error.Println("author composite failed")
 	}
+	authorComposite.Handler.Register(router)
 
 	bookComposite, err := composite.NewBookComposite(mysqlComposite)
+	if err != nil {
+		log.Error.Println("book composite failed")
+	}
+	bookComposite.Handler.Register(router)
 
 }

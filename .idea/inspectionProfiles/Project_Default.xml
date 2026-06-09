@@ -4,6 +4,8 @@
     <inspection_tool class="GoDfaErrorMayBeNotNil" enabled="true" level="WARNING" enabled_by_default="true">
       <functions>
         <function importPath="go-library/internal/composite" name="NewMysqlComposite" />
+        <function importPath="go-library/internal/composite" name="NewAuthorComposite" />
+        <function importPath="go-library/internal/composite" name="NewBookComposite" />
       </functions>
     </inspection_tool>
   </profile>
