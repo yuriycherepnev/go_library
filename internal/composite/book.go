@@ -1,4 +1,4 @@
-package composites
+package composite
 
 import (
 	"go-library/internal/adapters"
@@ -13,7 +13,7 @@ type BookComposite struct {
 	Handler adapters.Handler
 }
 
-func NewBookComposite() (*BookComposite, error) {
+func NewBookComposite(composites MysqlComposite) (*BookComposite, error) {
 	storage := bookStorage.NewStorage()
 	service := book2.NewService(storage)
 	handler := book.NewHandler(service)

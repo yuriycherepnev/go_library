@@ -1,4 +1,4 @@
-package composites
+package composite
 
 import (
 	"go-library/internal/adapters"

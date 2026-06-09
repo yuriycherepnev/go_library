@@ -1,15 +1,19 @@
 package book
 
 import (
+	"database/sql"
 	book2 "go-library/internal/entity"
 	"go-library/internal/usecase/book"
 )
 
 type bookStorage struct {
+	db *sql.DB
 }
 
-func NewStorage() book.Storage {
-	return &bookStorage{}
+func NewStorage(db *sql.DB) book.Storage {
+	return &bookStorage{
+		db: db,
+	}
 }
 
 func (bs *bookStorage) GetOne(uuid string) *book2.Book {
