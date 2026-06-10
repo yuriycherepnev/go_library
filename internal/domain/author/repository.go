@@ -1,10 +1,11 @@
-// это порт
+// порт репозитория
 
 package author
 
 type Repository interface {
-	GetOne(uuid string) *Author
-	GetAll(limit int, offset int) []*Author
-	Create(author *Author) *Author
-	Delete(author *Author) error
+	GetOne(id int) (*Author, error)
+	GetAll() ([]Author, error)
+	Create(name string) (*Author, error)
+	Update(id int, name string) error
+	Delete(id int) error
 }

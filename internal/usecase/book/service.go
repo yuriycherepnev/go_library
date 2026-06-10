@@ -8,8 +8,7 @@ import (
 // Service - useCase
 
 type service struct {
-	storage     domain.Repository
-	bookService Service
+	storage domain.Repository
 }
 
 func NewService(storage domain.Repository) Service {

@@ -5,8 +5,6 @@ import (
 	domain "go-library/internal/domain/author"
 )
 
-// Service - useCase
-
 type service struct {
 	storage domain.Repository
 }
@@ -23,6 +21,6 @@ func (s *service) GetByUUID(ctx context.Context, uuid string) *domain.Author {
 	return s.storage.GetOne(uuid)
 }
 
-func (s *service) GetAll(ctx context.Context, limit int, offset int) []*domain.Author {
-	return s.storage.GetAll(limit, offset)
+func (s *service) GetAll(ctx context.Context, limit int, offset int) []domain.Author {
+	return s.storage.GetAll()
 }

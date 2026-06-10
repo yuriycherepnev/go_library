@@ -3,7 +3,6 @@
 package author
 
 type Author struct {
-	UUID string
+	Id   int
 	Name string
-	Age  int
 }

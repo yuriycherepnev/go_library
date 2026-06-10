@@ -1,5 +1,4 @@
-// это порт
-// repository
+// порт репозитория
 
 package book
 
