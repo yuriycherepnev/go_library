@@ -2,27 +2,27 @@ package author
 
 import (
 	"context"
-	"go-library/internal/entity"
+	domain "go-library/internal/domain/author"
 )
 
 // Service - useCase
 
 type service struct {
-	storage Storage
+	storage domain.Repository
 }
 
-func NewService(storage Storage) Service {
+func NewService(storage domain.Repository) Service {
 	return &service{storage: storage}
 }
 
-func (s *service) Create(ctx context.Context, request CreateAuthorDTO) *entity.Author {
+func (s *service) Create(ctx context.Context, request CreateAuthorDTO) *domain.Author {
 	return nil
 }
 
-func (s *service) GetByUUID(ctx context.Context, uuid string) *entity.Author {
+func (s *service) GetByUUID(ctx context.Context, uuid string) *domain.Author {
 	return s.storage.GetOne(uuid)
 }
 
-func (s *service) GetAll(ctx context.Context, limit int, offset int) []*entity.Author {
+func (s *service) GetAll(ctx context.Context, limit int, offset int) []*domain.Author {
 	return s.storage.GetAll(limit, offset)
 }

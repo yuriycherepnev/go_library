@@ -2,7 +2,7 @@ package author
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"go-library/internal/adapters"
+	"go-library/internal/handlers"
 	"go-library/internal/usecase/author"
 	"net/http"
 )
@@ -16,7 +16,7 @@ type handler struct {
 	bookService author.Service
 }
 
-func NewHandler(service author.Service) adapters.Handler {
+func NewHandler(service author.Service) handlers.Handler {
 	return &handler{bookService: service}
 }
 

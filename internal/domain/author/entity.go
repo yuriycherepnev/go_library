@@ -1,6 +1,6 @@
 // entity - model
 
-package entity
+package author
 
 type Author struct {
 	UUID string

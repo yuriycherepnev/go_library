@@ -2,29 +2,28 @@ package book
 
 import (
 	"database/sql"
-	book2 "go-library/internal/entity"
-	"go-library/internal/usecase/book"
+	domain "go-library/internal/domain/book"
 )
 
 type bookStorage struct {
 	db *sql.DB
 }
 
-func NewStorage(db *sql.DB) book.Storage {
+func NewStorage(db *sql.DB) domain.Repository {
 	return &bookStorage{
 		db: db,
 	}
 }
 
-func (bs *bookStorage) GetOne(uuid string) *book2.Book {
+func (bs *bookStorage) GetOne(uuid string) *domain.Book {
 	return nil
 }
-func (bs *bookStorage) GetAll(limit int, offset int) []*book2.Book {
+func (bs *bookStorage) GetAll(limit int, offset int) []*domain.Book {
 	return nil
 }
-func (bs *bookStorage) Create(book *book2.Book) *book2.Book {
+func (bs *bookStorage) Create(book *domain.Book) *domain.Book {
 	return nil
 }
-func (bs *bookStorage) Delete(book *book2.Book) error {
+func (bs *bookStorage) Delete(book *domain.Book) error {
 	return nil
 }

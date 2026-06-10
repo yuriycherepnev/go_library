@@ -41,10 +41,4 @@ func main() {
 	}
 	authorComposite.Handler.Register(router)
 
-	bookComposite, err := composite.NewBookComposite(mysqlComposite)
-	if err != nil {
-		log.Error.Println("book composite failed")
-	}
-	bookComposite.Handler.Register(router)
-
 }
