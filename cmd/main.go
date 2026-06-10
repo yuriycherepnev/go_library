@@ -15,6 +15,7 @@ import (
 	config "go-library/configs"
 	"go-library/internal/composite"
 	logger "go-library/pkg/logging"
+	"net/http"
 )
 
 func main() {
@@ -41,4 +42,8 @@ func main() {
 	}
 	authorComposite.Handler.Register(router)
 
+	err = http.ListenAndServe(":8088", nil)
+	if err != nil {
+		return
+	}
 }
