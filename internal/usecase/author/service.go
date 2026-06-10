@@ -28,14 +28,14 @@ func (s *service) GetAll() ([]domain.Author, error) {
 	return authors, nil
 }
 
-func (s *service) Create(request CreateAuthorDTO) *domain.Author {
-	return nil
+func (s *service) Create(request CreateAuthorDTO) (*domain.Author, error) {
+	return nil, nil
 }
 
-func (s *service) Update(request CreateAuthorDTO) *domain.Author {
-	return nil
+func (s *service) Update(request UpdateAuthorDTO) (*domain.Author, error) {
+	return nil, nil
 }
 
-func (s *service) Delete(request CreateAuthorDTO) *domain.Author {
-	return nil
+func (s *service) Delete(request DeleteAuthorDto) (*domain.Author, error) {
+	return nil, nil
 }
