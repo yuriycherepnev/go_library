@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+	"github.com/joho/godotenv"
 	"os"
 )
 
@@ -17,6 +19,9 @@ type Config struct {
 }
 
 func GetConfig() *Config {
+	err := godotenv.Load()
+	fmt.Println(os.Getenv("DB_HOST"))
+
 	return &Config{
 		MySQLDb: DBConfig{
 			Host:     getEnv("DB_HOST", "localhost"),

@@ -42,7 +42,7 @@ func main() {
 	}
 	authorComposite.Handler.Register(router)
 
-	err = http.ListenAndServe(":8088", nil)
+	err = http.ListenAndServe(":8088", router)
 	if err != nil {
 		return
 	}
