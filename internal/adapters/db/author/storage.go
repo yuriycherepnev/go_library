@@ -44,7 +44,7 @@ func (as *authorStorage) GetAll() (authors []author.Author, err error) {
 	}()
 	for rows.Next() {
 		var a author.Author
-		if err = rows.Scan(&a); err != nil {
+		if err = rows.Scan(&a.Id, &a.Name); err != nil {
 			return nil, err
 		}
 		authors = append(authors, a)

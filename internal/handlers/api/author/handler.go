@@ -18,7 +18,7 @@ func NewHandler(service author.Service) handlers.Handler {
 
 func (h *handler) Register(router *httprouter.Router) {
 	router.GET("/author/:id", h.GetAuthorByID)
-	router.GET("/author", h.GetAuthors)
+	router.GET("/authors", h.GetAuthors)
 	//router.POST("/author", h.CreateAuthor)
 	//router.PUT("/author/:id", h.UpdateAuthor)
 	//router.DELETE("/author/:id", h.DeleteAuthor)

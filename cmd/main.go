@@ -33,15 +33,12 @@ func main() {
 	if err != nil {
 		log.Error.Println("mysql composite failed")
 	}
-
 	router := httprouter.New()
-
 	authorComposite, err := composite.NewAuthorComposite(mysqlComposite)
 	if err != nil {
 		log.Error.Println("author composite failed")
 	}
 	authorComposite.Handler.Register(router)
-
 	err = http.ListenAndServe(":8088", router)
 	if err != nil {
 		return
