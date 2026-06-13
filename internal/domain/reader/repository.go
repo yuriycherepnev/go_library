@@ -1,11 +1,11 @@
 // порт - интерфейс репозитория
 
-package book
+package reader
 
 type Repository interface {
-	GetOne(id int) (*Book, error)
-	GetAll() ([]Book, error)
-	Create(name string) (*Book, error)
+	GetOne(id int) (*Reader, error)
+	GetAll() ([]Reader, error)
+	Create(name string) (*Reader, error)
 	Update(id int, name string) error
 	Delete(id int) error
 }

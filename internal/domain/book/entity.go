@@ -3,24 +3,15 @@
 package book
 
 import (
-	"fmt"
 	"go-library/internal/domain/author"
+	"go-library/internal/domain/reader"
 )
 
 type Book struct {
-	UUID   string        `json:"uuid,omitempty"`
-	Name   string        `json:"name,omitempty"`
-	Year   int           `json:"year,omitempty"`
-	Busy   bool          `json:"busy,omitempty"`
-	Owner  string        `json:"owner,omitempty"`
-	Author author.Author `json:"author,omitempty"`
-}
-
-func (b *Book) Take(owner string) error {
-	if b.Busy {
-		return fmt.Errorf("book is busy")
-	}
-	b.Owner = owner
-	b.Busy = true
-	return nil
+	Id       int            `json:"id"`
+	Title    *string        `json:"title,omitempty"`
+	IdAuthor *int           `json:"id_author,omitempty"`
+	IdReader *int           `json:"id_reader,omitempty"`
+	Author   *author.Author `json:"author,omitempty"`
+	Reader   *reader.Reader `json:"reader,omitempty"`
 }
