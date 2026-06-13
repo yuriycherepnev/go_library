@@ -12,9 +12,9 @@ package main
 import (
 	"context"
 	"github.com/julienschmidt/httprouter"
-	config "go-library/configs"
+	"go-library/configs"
 	"go-library/internal/composite"
-	logger "go-library/pkg/logging"
+	"go-library/pkg/logging"
 	"net/http"
 )
 

@@ -1,6 +1,7 @@
 package author
 
 import (
+	"encoding/json"
 	"github.com/julienschmidt/httprouter"
 	"go-library/internal/handlers"
 	"go-library/internal/usecase/author"
@@ -19,9 +20,9 @@ func NewHandler(service author.Service) handlers.Handler {
 func (h *handler) Register(router *httprouter.Router) {
 	router.GET("/author/:id", h.GetAuthorByID)
 	router.GET("/authors", h.GetAuthors)
-	//router.POST("/author", h.CreateAuthor)
-	//router.PUT("/author/:id", h.UpdateAuthor)
-	//router.DELETE("/author/:id", h.DeleteAuthor)
+	router.POST("/author", h.CreateAuthor)
+	router.PUT("/author/:id", h.UpdateAuthor)
+	router.DELETE("/author/:id", h.DeleteAuthor)
 }
 
 func (h *handler) GetAuthors(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
@@ -45,4 +46,18 @@ func (h *handler) GetAuthorByID(w http.ResponseWriter, r *http.Request, params h
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)
+}
+
+func (h *handler) CreateAuthor(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	var request author.CreateAuthorDTO
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+	a, err := h.authorService.Create(request)
+	if err != nil {
+		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	handlers.WriteJSON(w, http.StatusCreated, a)
 }

@@ -5,10 +5,10 @@ type CreateAuthorDTO struct {
 }
 
 type UpdateAuthorDTO struct {
-	Id   string `json:"uuid"`
+	Id   int    `json:"uuid"`
 	Name string `json:"name"`
 }
 
 type DeleteAuthorDto struct {
-	Id string `json:"uuid"`
+	Id int `json:"uuid"`
 }

@@ -1,4 +1,4 @@
-// реализация репозитория
+// adapter - реализация репозитория
 
 package author
 
@@ -21,7 +21,7 @@ func NewStorage(db *sql.DB) author.Repository {
 
 func (as *authorStorage) GetOne(id int) (*author.Author, error) {
 	var a author.Author
-	err := as.db.QueryRow("SELECT id, name FROM author WHERE id = ?", id).Scan(&a)
+	err := as.db.QueryRow("SELECT id, name FROM author WHERE id = ?", id).Scan(&a.Id, &a.Name)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, nil
 	}
