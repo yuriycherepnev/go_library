@@ -53,14 +53,9 @@ func (as *authorStorage) GetAll() (authors []author.Author, err error) {
 }
 
 func (as *authorStorage) Update(id int, name string) error {
-	result, err := as.db.Exec("UPDATE author SET name = ? WHERE id = ?", name, id)
-
+	_, err := as.db.Exec("UPDATE author SET name = ? WHERE id = ?", name, id)
 	if err != nil {
 		return err
-	}
-	rows, _ := result.RowsAffected()
-	if rows == 0 {
-		return sql.ErrNoRows
 	}
 	return nil
 }

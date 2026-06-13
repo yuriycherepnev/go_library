@@ -1,12 +1,15 @@
 package author
 
 import (
+	"database/sql"
 	"encoding/json"
+	"errors"
 	"github.com/julienschmidt/httprouter"
 	"go-library/internal/handlers"
 	"go-library/internal/usecase/author"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type handler struct {
@@ -60,4 +63,44 @@ func (h *handler) CreateAuthor(w http.ResponseWriter, r *http.Request, params ht
 		return
 	}
 	handlers.WriteJSON(w, http.StatusCreated, a)
+}
+
+func (h *handler) UpdateAuthor(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, "invalid id")
+		return
+	}
+	var request author.UpdateAuthorDTO
+	if err = json.NewDecoder(r.Body).Decode(&request); err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+	request.Id = id
+	request.Name = strings.TrimSpace(request.Name)
+	a, err := h.authorService.Update(request)
+	if err != nil {
+		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	handlers.WriteJSON(w, http.StatusOK, a)
+}
+
+func (h *handler) DeleteAuthor(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, "invalid id")
+		return
+	}
+	request := author.DeleteAuthorDto{Id: id}
+	a, err := h.authorService.Delete(request)
+	if errors.Is(err, sql.ErrNoRows) {
+		handlers.WriteError(w, http.StatusNotFound, "author not found")
+		return
+	}
+	if err != nil {
+		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	handlers.WriteJSON(w, http.StatusOK, a)
 }

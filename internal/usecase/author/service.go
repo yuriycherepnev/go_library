@@ -57,6 +57,5 @@ func (s *service) Delete(request DeleteAuthorDto) (*domain.Author, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return a, nil
 }
