@@ -39,7 +39,7 @@ func (s *service) Create(request CreateBookDTO) (*domain.Book, error) {
 }
 
 func (s *service) Update(request UpdateBookDTO) (*domain.Book, error) {
-	err := s.storage.Update(request.Id, request.Title)
+	err := s.storage.Update(request.Id, request.Title, request.IdAuthor)
 	if err != nil {
 		return nil, err
 	}

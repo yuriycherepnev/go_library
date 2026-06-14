@@ -20,7 +20,7 @@ func NewStorage(db *sql.DB) book.Repository {
 	}
 }
 
-func (bs *bookStorage) GetOne(id string) (*book.Book, error) {
+func (bs *bookStorage) GetOne(id int) (*book.Book, error) {
 	query := `
         SELECT b.id, b.title, b.id_author, b.id_reader,
                a.id, a.name,
@@ -56,7 +56,7 @@ func (bs *bookStorage) GetOne(id string) (*book.Book, error) {
 	return &b, nil
 }
 
-func (bs *bookStorage) GetAll(limit int, offset int) ([]book.Book, error) {
+func (bs *bookStorage) GetAll() ([]book.Book, error) {
 	query := `
         SELECT b.id, b.title, b.id_author, b.id_reader,
                a.id, a.name,
@@ -100,4 +100,64 @@ func (bs *bookStorage) GetAll(limit int, offset int) ([]book.Book, error) {
 		books = append(books, b)
 	}
 	return books, nil
+}
+
+func (bs *bookStorage) Create(title string, idAuthor int) (*book.Book, error) {
+	query := `
+		INSERT INTO book (title, id_author)
+		VALUES (?, ?)
+	`
+
+	result, err := bs.db.Exec(query, title, idAuthor)
+	if err != nil {
+		return nil, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	return bs.GetOne(int(id))
+}
+
+func (bs *bookStorage) Update(id int, title string, idAuthor *int) error {
+	var err error
+
+	if idAuthor == nil {
+		query := `
+			UPDATE book
+			SET title = ?
+			WHERE id = ?
+		`
+		_, err = bs.db.Exec(query, title, id)
+	} else {
+		query := `
+			UPDATE book
+			SET title = ?, id_author = ?
+			WHERE id = ?
+		`
+		_, err = bs.db.Exec(query, title, *idAuthor, id)
+	}
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (bs *bookStorage) Delete(id int) error {
+	query := `
+		DELETE FROM book
+		WHERE id = ?
+	`
+
+	_, err := bs.db.Exec(query, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -8,8 +8,7 @@ type CreateBookDTO struct {
 type UpdateBookDTO struct {
 	Id       int    `json:"id"`
 	Title    string `json:"title"`
-	IdAuthor int    `json:"id_author"`
-	IdReader int    `json:"id_reader"`
+	IdAuthor *int   `json:"id_author"`
 }
 
 type DeleteBookDTO struct {
