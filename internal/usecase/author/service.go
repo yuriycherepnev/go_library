@@ -1,7 +1,7 @@
 package author
 
 import (
-	"database/sql"
+	"go-library/internal/domain"
 	authorDomain "go-library/internal/domain/author"
 )
 
@@ -38,7 +38,14 @@ func (s *service) Create(request CreateAuthorDTO) (*authorDomain.Author, error) 
 }
 
 func (s *service) Update(request UpdateAuthorDTO) (*authorDomain.Author, error) {
-	err := s.authorStorage.Update(request.Id, request.Name)
+	a, err := s.authorStorage.GetOne(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	if a == nil {
+		return nil, domain.ErrAuthorNotFound
+	}
+	err = s.authorStorage.Update(request.Id, request.Name)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +58,7 @@ func (s *service) Delete(request DeleteAuthorDTO) (*authorDomain.Author, error) 
 		return nil, err
 	}
 	if a == nil {
-		return nil, sql.ErrNoRows
+		return nil, domain.ErrAuthorNotFound
 	}
 	err = s.authorStorage.Delete(request.Id)
 	if err != nil {

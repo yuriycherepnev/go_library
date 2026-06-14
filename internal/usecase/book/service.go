@@ -69,7 +69,16 @@ func (s *service) Update(request UpdateBookDTO) (*bookDomain.Book, error) {
 		}
 	}
 
-	err := s.bookStorage.Update(request.Id, request.Title, request.IdAuthor)
+	b, err := s.bookStorage.GetOne(request.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	if b == nil {
+		return nil, domain.ErrBookNotFound
+	}
+
+	err = s.bookStorage.Update(request.Id, request.Title, request.IdAuthor)
 	if err != nil {
 		return nil, err
 	}
@@ -81,6 +90,9 @@ func (s *service) Delete(request DeleteBookDTO) (*bookDomain.Book, error) {
 	b, err := s.bookStorage.GetOne(request.Id)
 	if err != nil {
 		return nil, err
+	}
+	if b == nil {
+		return nil, domain.ErrBookNotFound
 	}
 
 	err = s.bookStorage.Delete(request.Id)
