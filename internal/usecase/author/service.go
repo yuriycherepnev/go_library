@@ -2,58 +2,58 @@ package author
 
 import (
 	"database/sql"
-	domain "go-library/internal/domain/author"
+	authorDomain "go-library/internal/domain/author"
 )
 
 type service struct {
-	storage domain.Repository
+	authorStorage authorDomain.Repository
 }
 
-func NewService(storage domain.Repository) Service {
-	return &service{storage: storage}
+func NewService(storage authorDomain.Repository) Service {
+	return &service{authorStorage: storage}
 }
 
-func (s *service) GetById(id int) (*domain.Author, error) {
-	author, err := s.storage.GetOne(id)
+func (s *service) GetById(id int) (*authorDomain.Author, error) {
+	author, err := s.authorStorage.GetOne(id)
 	if err != nil {
 		return nil, err
 	}
 	return author, nil
 }
 
-func (s *service) GetAll() ([]domain.Author, error) {
-	authors, err := s.storage.GetAll()
+func (s *service) GetAll() ([]authorDomain.Author, error) {
+	authors, err := s.authorStorage.GetAll()
 	if err != nil {
 		return nil, err
 	}
 	return authors, nil
 }
 
-func (s *service) Create(request CreateAuthorDTO) (*domain.Author, error) {
-	author, err := s.storage.Create(request.Name)
+func (s *service) Create(request CreateAuthorDTO) (*authorDomain.Author, error) {
+	author, err := s.authorStorage.Create(request.Name)
 	if err != nil {
 		return nil, err
 	}
 	return author, nil
 }
 
-func (s *service) Update(request UpdateAuthorDTO) (*domain.Author, error) {
-	err := s.storage.Update(request.Id, request.Name)
+func (s *service) Update(request UpdateAuthorDTO) (*authorDomain.Author, error) {
+	err := s.authorStorage.Update(request.Id, request.Name)
 	if err != nil {
 		return nil, err
 	}
-	return s.storage.GetOne(request.Id)
+	return s.authorStorage.GetOne(request.Id)
 }
 
-func (s *service) Delete(request DeleteAuthorDTO) (*domain.Author, error) {
-	a, err := s.storage.GetOne(request.Id)
+func (s *service) Delete(request DeleteAuthorDTO) (*authorDomain.Author, error) {
+	a, err := s.authorStorage.GetOne(request.Id)
 	if err != nil {
 		return nil, err
 	}
 	if a == nil {
 		return nil, sql.ErrNoRows
 	}
-	err = s.storage.Delete(request.Id)
+	err = s.authorStorage.Delete(request.Id)
 	if err != nil {
 		return nil, err
 	}

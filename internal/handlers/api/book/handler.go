@@ -12,11 +12,6 @@ import (
 	"strings"
 )
 
-const (
-	bookURL  = "/book"
-	booksURL = "/books"
-)
-
 type handler struct {
 	bookService book.Service
 }
@@ -26,11 +21,11 @@ func NewHandler(service book.Service) handlers.Handler {
 }
 
 func (h *handler) Register(router *httprouter.Router) {
-	router.GET(bookURL+"/:id", h.GetBookById)
-	router.GET(booksURL, h.GetAllBooks)
-	router.POST(bookURL, h.CreateBook)
-	router.PUT(bookURL+"/:id", h.UpdateBook)
-	router.DELETE(bookURL+"/:id", h.DeleteBook)
+	router.GET("/book/:id", h.GetBookById)
+	router.GET("/books", h.GetAllBooks)
+	router.POST("/book", h.CreateBook)
+	router.PUT("/book/:id", h.UpdateBook)
+	router.DELETE("/book/:id", h.DeleteBook)
 }
 
 func (h *handler) GetBookById(w http.ResponseWriter, r *http.Request, params httprouter.Params) {

@@ -1,28 +1,30 @@
 package composite
 
 import (
-	adapter "go-library/internal/adapters/db/book"
-	domain "go-library/internal/domain/book"
+	authorAdapter "go-library/internal/adapters/db/author"
+	bookAdapter "go-library/internal/adapters/db/book"
+	bookDomain "go-library/internal/domain/book"
 	handler "go-library/internal/handlers"
 	bookHandler "go-library/internal/handlers/api/book"
-	useCase "go-library/internal/usecase/book"
+	bookUseCase "go-library/internal/usecase/book"
 )
 
 type BookComposite struct {
-	Storage domain.Repository
-	Service useCase.Service
+	Storage bookDomain.Repository
+	Service bookUseCase.Service
 	Handler handler.Handler
 }
 
 func NewBookComposite(composite *MysqlComposite) (*BookComposite, error) {
-	storage := adapter.NewStorage(composite.db)
-	service := useCase.NewService(storage)
+	bookStorage := bookAdapter.NewStorage(composite.db)
+	authorStorage := authorAdapter.NewStorage(composite.db)
+
+	service := bookUseCase.NewService(bookStorage, authorStorage)
 	apiHandler := bookHandler.NewHandler(service)
 
 	return &BookComposite{
-		Storage: storage,
+		Storage: bookStorage,
 		Service: service,
 		Handler: apiHandler,
 	}, nil
-
 }

@@ -3,57 +3,87 @@
 package book
 
 import (
-	domain "go-library/internal/domain/book"
+	"go-library/internal/domain"
+	authorDomain "go-library/internal/domain/author"
+	bookDomain "go-library/internal/domain/book"
 )
 
 type service struct {
-	storage domain.Repository
+	bookStorage   bookDomain.Repository
+	authorStorage authorDomain.Repository
 }
 
-func NewService(storage domain.Repository) Service {
-	return &service{storage: storage}
+func NewService(
+	bookStorage bookDomain.Repository,
+	authorStorage authorDomain.Repository,
+) Service {
+	return &service{
+		bookStorage:   bookStorage,
+		authorStorage: authorStorage,
+	}
 }
 
-func (s *service) GetById(id int) (*domain.Book, error) {
-	book, err := s.storage.GetOne(id)
+func (s *service) GetById(id int) (*bookDomain.Book, error) {
+	book, err := s.bookStorage.GetOne(id)
 	if err != nil {
 		return nil, err
 	}
 	return book, nil
 }
 
-func (s *service) GetAll() ([]domain.Book, error) {
-	books, err := s.storage.GetAll()
+func (s *service) GetAll() ([]bookDomain.Book, error) {
+	books, err := s.bookStorage.GetAll()
 	if err != nil {
 		return nil, err
 	}
 	return books, nil
 }
 
-func (s *service) Create(request CreateBookDTO) (*domain.Book, error) {
-	book, err := s.storage.Create(request.Title, request.IdAuthor)
+func (s *service) Create(request CreateBookDTO) (*bookDomain.Book, error) {
+	a, err := s.authorStorage.GetOne(request.IdAuthor)
 	if err != nil {
 		return nil, err
 	}
-	return book, nil
+
+	if a == nil {
+		return nil, domain.ErrAuthorNotFound
+	}
+
+	b, err := s.bookStorage.Create(request.Title, request.IdAuthor)
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
 }
 
-func (s *service) Update(request UpdateBookDTO) (*domain.Book, error) {
-	err := s.storage.Update(request.Id, request.Title, request.IdAuthor)
+func (s *service) Update(request UpdateBookDTO) (*bookDomain.Book, error) {
+	if request.IdAuthor != nil {
+		a, err := s.authorStorage.GetOne(*request.IdAuthor)
+		if err != nil {
+			return nil, err
+		}
+
+		if a == nil {
+			return nil, domain.ErrAuthorNotFound
+		}
+	}
+
+	err := s.bookStorage.Update(request.Id, request.Title, request.IdAuthor)
 	if err != nil {
 		return nil, err
 	}
 
-	return s.storage.GetOne(request.Id)
+	return s.bookStorage.GetOne(request.Id)
 }
 
-func (s *service) Delete(request DeleteBookDTO) (*domain.Book, error) {
-	b, err := s.storage.GetOne(request.Id)
+func (s *service) Delete(request DeleteBookDTO) (*bookDomain.Book, error) {
+	b, err := s.bookStorage.GetOne(request.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.storage.Delete(request.Id)
+	err = s.bookStorage.Delete(request.Id)
 	if err != nil {
 		return nil, err
 	}
