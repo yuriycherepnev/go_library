@@ -2,12 +2,13 @@ package book
 
 // interface бизнес логики лежит там где он используется - рядом с handler
 import (
-	"context"
 	"go-library/internal/domain/book"
 )
 
 type Service interface {
-	GetByUUID(ctx context.Context, uuid string) *book.Book
-	GetAll(ctx context.Context, limit int, offset int) []*book.Book
-	Create(ctx context.Context, request CreateBookDTO) *book.Book
+	GetById(id int) (*book.Book, error)
+	GetAll() ([]book.Book, error)
+	Create(request CreateBookDTO) (*book.Book, error)
+	Update(request UpdateBookDTO) (*book.Book, error)
+	Delete(request DeleteBookDTO) (*book.Book, error)
 }

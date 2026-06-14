@@ -52,14 +52,6 @@ func (as *authorStorage) GetAll() (authors []author.Author, err error) {
 	return authors, nil
 }
 
-func (as *authorStorage) Update(id int, name string) error {
-	_, err := as.db.Exec("UPDATE author SET name = ? WHERE id = ?", name, id)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (as *authorStorage) Create(name string) (*author.Author, error) {
 	result, err := as.db.Exec("INSERT INTO author(name) VALUES(?)", name)
 	if err != nil {
@@ -67,6 +59,14 @@ func (as *authorStorage) Create(name string) (*author.Author, error) {
 	}
 	id, _ := result.LastInsertId()
 	return &author.Author{Id: int(id), Name: name}, nil
+}
+
+func (as *authorStorage) Update(id int, name string) error {
+	_, err := as.db.Exec("UPDATE author SET name = ? WHERE id = ?", name, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (as *authorStorage) Delete(id int) error {

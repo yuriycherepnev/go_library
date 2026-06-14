@@ -9,6 +9,6 @@ type UpdateAuthorDTO struct {
 	Name string `json:"name"`
 }
 
-type DeleteAuthorDto struct {
+type DeleteAuthorDTO struct {
 	Id int `json:"uuid"`
 }

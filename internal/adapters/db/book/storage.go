@@ -101,15 +101,3 @@ func (bs *bookStorage) GetAll(limit int, offset int) ([]book.Book, error) {
 	}
 	return books, nil
 }
-
-func (bs *bookStorage) Create(book *book.Book) (*book.Book, error) {
-	return nil, nil
-}
-
-func (bs *bookStorage) Update(book *book.Book) error {
-	return nil
-}
-
-func (bs *bookStorage) Delete(book *book.Book) error {
-	return nil
-}

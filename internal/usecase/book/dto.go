@@ -1,16 +1,17 @@
 package book
 
 type CreateBookDTO struct {
-	Name       string `json:"name"`
-	Year       int    `json:"year"`
-	AuthorUUID string `json:"author_uuid"`
+	Title    string `json:"title"`
+	IdAuthor int    `json:"id_author"`
 }
 
 type UpdateBookDTO struct {
-	UUID       string `json:"uuid"`
-	Name       string `json:"name"`
-	Year       int    `json:"year"`
-	AuthorUUID string `json:"author_uuid"`
-	Busy       bool   `json:"busy"`
-	Owner      string `json:"owner"`
+	Id       int    `json:"id"`
+	Title    string `json:"title"`
+	IdAuthor int    `json:"id_author"`
+	IdReader int    `json:"id_reader"`
+}
+
+type DeleteBookDTO struct {
+	Id int `json:"id"`
 }

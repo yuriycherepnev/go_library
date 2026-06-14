@@ -92,7 +92,7 @@ func (h *handler) DeleteAuthor(w http.ResponseWriter, r *http.Request, params ht
 		handlers.WriteError(w, http.StatusBadRequest, "invalid id")
 		return
 	}
-	request := author.DeleteAuthorDto{Id: id}
+	request := author.DeleteAuthorDTO{Id: id}
 	a, err := h.authorService.Delete(request)
 	if errors.Is(err, sql.ErrNoRows) {
 		handlers.WriteError(w, http.StatusNotFound, "author not found")

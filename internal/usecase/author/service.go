@@ -45,7 +45,7 @@ func (s *service) Update(request UpdateAuthorDTO) (*domain.Author, error) {
 	return s.storage.GetOne(request.Id)
 }
 
-func (s *service) Delete(request DeleteAuthorDto) (*domain.Author, error) {
+func (s *service) Delete(request DeleteAuthorDTO) (*domain.Author, error) {
 	a, err := s.storage.GetOne(request.Id)
 	if err != nil {
 		return nil, err
