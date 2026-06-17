@@ -6,6 +6,7 @@
         <function importPath="go-library/internal/composite" name="NewMysqlComposite" />
         <function importPath="go-library/internal/composite" name="NewAuthorComposite" />
         <function importPath="go-library/internal/composite" name="NewBookComposite" />
+        <function importPath="go-library/internal/composite" name="NewReaderComposite" />
       </functions>
     </inspection_tool>
   </profile>

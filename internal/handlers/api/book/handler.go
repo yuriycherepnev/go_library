@@ -24,7 +24,7 @@ func (h *handler) Register(router *httprouter.Router) {
 	router.GET("/book/:id", h.GetBookById)
 	router.GET("/books", h.GetAllBooks)
 	router.POST("/book", h.CreateBook)
-	router.PUT("/book/:id", h.UpdateBook)
+	router.PATCH("/book/:id", h.UpdateBook)
 	router.DELETE("/book/:id", h.DeleteBook)
 }
 

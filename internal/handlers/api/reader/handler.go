@@ -1,47 +1,47 @@
-package author
+package reader
 
 import (
 	"encoding/json"
 	"github.com/julienschmidt/httprouter"
 	"go-library/internal/handlers"
-	"go-library/internal/usecase/author"
+	"go-library/internal/usecase/reader"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
 type handler struct {
-	authorService author.Service
+	readerService reader.Service
 }
 
-func NewHandler(service author.Service) handlers.Handler {
-	return &handler{authorService: service}
+func NewHandler(service reader.Service) handlers.Handler {
+	return &handler{readerService: service}
 }
 
 func (h *handler) Register(router *httprouter.Router) {
-	router.GET("/author/:id", h.GetAuthorByID)
-	router.GET("/authors", h.GetAuthors)
-	router.POST("/author", h.CreateAuthor)
-	router.PATCH("/author/:id", h.UpdateAuthor)
-	router.DELETE("/author/:id", h.DeleteAuthor)
+	router.GET("/reader/:id", h.GetReaderByID)
+	router.GET("/readers", h.GetReader)
+	router.POST("/reader", h.CreateReader)
+	router.PATCH("/reader/:id", h.UpdateReader)
+	router.DELETE("/reader/:id", h.DeleteReader)
 }
 
-func (h *handler) GetAuthors(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	authors, err := h.authorService.GetAll()
+func (h *handler) GetReader(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	readers, err := h.readerService.GetAll()
 	if err != nil {
 		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	handlers.WriteJSON(w, http.StatusOK, authors)
+	handlers.WriteJSON(w, http.StatusOK, readers)
 }
 
-func (h *handler) GetAuthorByID(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (h *handler) GetReaderByID(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
 		handlers.WriteError(w, http.StatusBadRequest, "invalid id")
 		return
 	}
-	a, err := h.authorService.GetById(id)
+	a, err := h.readerService.GetById(id)
 	if err != nil {
 		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -49,13 +49,13 @@ func (h *handler) GetAuthorByID(w http.ResponseWriter, r *http.Request, params h
 	handlers.WriteJSON(w, http.StatusOK, a)
 }
 
-func (h *handler) CreateAuthor(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	var request author.CreateAuthorDTO
+func (h *handler) CreateReader(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	var request reader.CreateReaderDTO
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		handlers.WriteError(w, http.StatusBadRequest, "invalid request body")
 		return
 	}
-	a, err := h.authorService.Create(request)
+	a, err := h.readerService.Create(request)
 	if err != nil {
 		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -63,20 +63,20 @@ func (h *handler) CreateAuthor(w http.ResponseWriter, r *http.Request, params ht
 	handlers.WriteJSON(w, http.StatusCreated, a)
 }
 
-func (h *handler) UpdateAuthor(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (h *handler) UpdateReader(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
 		handlers.WriteError(w, http.StatusBadRequest, "invalid id")
 		return
 	}
-	var request author.UpdateAuthorDTO
+	var request reader.UpdateReaderDTO
 	if err = json.NewDecoder(r.Body).Decode(&request); err != nil {
 		handlers.WriteError(w, http.StatusBadRequest, "invalid request body")
 		return
 	}
 	request.Id = id
 	request.Name = strings.TrimSpace(request.Name)
-	a, err := h.authorService.Update(request)
+	a, err := h.readerService.Update(request)
 	if err != nil {
 		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -84,14 +84,14 @@ func (h *handler) UpdateAuthor(w http.ResponseWriter, r *http.Request, params ht
 	handlers.WriteJSON(w, http.StatusOK, a)
 }
 
-func (h *handler) DeleteAuthor(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (h *handler) DeleteReader(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
 		handlers.WriteError(w, http.StatusBadRequest, "invalid id")
 		return
 	}
-	request := author.DeleteAuthorDTO{Id: id}
-	a, err := h.authorService.Delete(request)
+	request := reader.DeleteReaderDTO{Id: id}
+	a, err := h.readerService.Delete(request)
 	if err != nil {
 		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
 		return

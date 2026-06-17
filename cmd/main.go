@@ -39,6 +39,12 @@ func main() {
 	}
 	bookComposite.Handler.Register(router)
 
+	readerComposite, err := composite.NewReaderComposite(mysqlComposite)
+	if err != nil {
+		log.Error.Println("reader composite failed")
+	}
+	readerComposite.Handler.Register(router)
+
 	err = http.ListenAndServe(":8088", router)
 	if err != nil {
 		return
