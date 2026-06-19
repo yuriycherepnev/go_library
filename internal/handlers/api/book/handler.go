@@ -26,6 +26,9 @@ func (h *handler) Register(router *httprouter.Router) {
 	router.POST("/book", h.CreateBook)
 	router.PATCH("/book/:id", h.UpdateBook)
 	router.DELETE("/book/:id", h.DeleteBook)
+
+	router.POST("/book/borrow", h.BorrowBook)
+	router.POST("/book/return", h.ReturnBook)
 }
 
 func (h *handler) GetBookById(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
@@ -155,6 +158,23 @@ func (h *handler) BorrowBook(w http.ResponseWriter, r *http.Request, _ httproute
 	}
 
 	b, err := h.bookService.Borrow(request)
+	if err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	handlers.WriteJSON(w, http.StatusOK, b)
+}
+
+func (h *handler) ReturnBook(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var request book.ReturnBookDTO
+
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	b, err := h.bookService.Return(request)
 	if err != nil {
 		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return

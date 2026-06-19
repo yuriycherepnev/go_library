@@ -108,7 +108,7 @@ func (s *service) Delete(request DeleteBookDTO) (*bookDomain.Book, error) {
 }
 
 func (s *service) Borrow(request BorrowBookDTO) (*bookDomain.Book, error) {
-	reader, err := s.readerStorage.GetOne(request.ReaderID)
+	reader, err := s.readerStorage.GetOne(request.ReaderId)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func (s *service) Borrow(request BorrowBookDTO) (*bookDomain.Book, error) {
 		return nil, domain.ErrReaderNotFound
 	}
 
-	b, err := s.bookStorage.GetOne(request.BookID)
+	b, err := s.bookStorage.GetOne(request.BookId)
 	if err != nil {
 		return nil, err
 	}
@@ -128,16 +128,16 @@ func (s *service) Borrow(request BorrowBookDTO) (*bookDomain.Book, error) {
 		return nil, domain.ErrBookTaken
 	}
 
-	err = s.bookStorage.Borrow(request.BookID, request.ReaderID)
+	err = s.bookStorage.Borrow(request.BookId, request.ReaderId)
 	if err != nil {
 		return nil, err
 	}
 
-	return s.bookStorage.GetOne(request.BookID)
+	return s.bookStorage.GetOne(request.BookId)
 }
 
 func (s *service) Return(request ReturnBookDTO) (*bookDomain.Book, error) {
-	b, err := s.bookStorage.GetOne(request.BookID)
+	b, err := s.bookStorage.GetOne(request.BookId)
 	if err != nil {
 		return nil, err
 	}
@@ -149,10 +149,10 @@ func (s *service) Return(request ReturnBookDTO) (*bookDomain.Book, error) {
 		return nil, domain.ErrBookNotBorrowed
 	}
 
-	err = s.bookStorage.Return(request.BookID)
+	err = s.bookStorage.Return(request.BookId)
 	if err != nil {
 		return nil, err
 	}
 
-	return s.bookStorage.GetOne(request.BookID)
+	return s.bookStorage.GetOne(request.BookId)
 }

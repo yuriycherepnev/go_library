@@ -16,10 +16,10 @@ type DeleteBookDTO struct {
 }
 
 type BorrowBookDTO struct {
-	BookID   int `json:"book_id"`
-	ReaderID int `json:"reader_id"`
+	BookId   int `json:"book_id"`
+	ReaderId int `json:"reader_id"`
 }
 
 type ReturnBookDTO struct {
-	BookID int `json:"book_id"`
+	BookId int `json:"book_id"`
 }
