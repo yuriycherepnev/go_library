@@ -161,3 +161,34 @@ func (bs *bookStorage) Delete(id int) error {
 
 	return nil
 }
+
+func (bs *bookStorage) Borrow(bookID int, readerID int) error {
+	result, err := bs.db.Exec(
+		"UPDATE book SET id_reader = ? WHERE id = ?",
+		readerID,
+		bookID,
+	)
+	if err != nil {
+		return err
+	}
+	rows, _ := result.RowsAffected()
+	if rows == 0 {
+		return sql.ErrNoRows
+	}
+	return nil
+}
+
+func (bs *bookStorage) Return(bookID int) error {
+	result, err := bs.db.Exec(
+		"UPDATE book SET id_reader = NULL WHERE id = ?",
+		bookID,
+	)
+	if err != nil {
+		return err
+	}
+	rows, _ := result.RowsAffected()
+	if rows == 0 {
+		return sql.ErrNoRows
+	}
+	return nil
+}

@@ -29,7 +29,7 @@ func (h *handler) Register(router *httprouter.Router) {
 func (h *handler) GetReader(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	readers, err := h.readerService.GetAll()
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, readers)
@@ -43,7 +43,7 @@ func (h *handler) GetReaderByID(w http.ResponseWriter, r *http.Request, params h
 	}
 	a, err := h.readerService.GetById(id)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)
@@ -57,7 +57,7 @@ func (h *handler) CreateReader(w http.ResponseWriter, r *http.Request, params ht
 	}
 	a, err := h.readerService.Create(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusCreated, a)
@@ -78,7 +78,7 @@ func (h *handler) UpdateReader(w http.ResponseWriter, r *http.Request, params ht
 	request.Name = strings.TrimSpace(request.Name)
 	a, err := h.readerService.Update(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)
@@ -93,7 +93,7 @@ func (h *handler) DeleteReader(w http.ResponseWriter, r *http.Request, params ht
 	request := reader.DeleteReaderDTO{Id: id}
 	a, err := h.readerService.Delete(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)

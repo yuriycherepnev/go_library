@@ -29,7 +29,7 @@ func (h *handler) Register(router *httprouter.Router) {
 func (h *handler) GetAuthors(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	authors, err := h.authorService.GetAll()
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, authors)
@@ -43,7 +43,7 @@ func (h *handler) GetAuthorByID(w http.ResponseWriter, r *http.Request, params h
 	}
 	a, err := h.authorService.GetById(id)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)
@@ -57,7 +57,7 @@ func (h *handler) CreateAuthor(w http.ResponseWriter, r *http.Request, params ht
 	}
 	a, err := h.authorService.Create(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusCreated, a)
@@ -78,7 +78,7 @@ func (h *handler) UpdateAuthor(w http.ResponseWriter, r *http.Request, params ht
 	request.Name = strings.TrimSpace(request.Name)
 	a, err := h.authorService.Update(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)
@@ -93,7 +93,7 @@ func (h *handler) DeleteAuthor(w http.ResponseWriter, r *http.Request, params ht
 	request := author.DeleteAuthorDTO{Id: id}
 	a, err := h.authorService.Delete(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, a)

@@ -11,4 +11,7 @@ type Service interface {
 	Create(request CreateBookDTO) (*book.Book, error)
 	Update(request UpdateBookDTO) (*book.Book, error)
 	Delete(request DeleteBookDTO) (*book.Book, error)
+
+	Borrow(request BorrowBookDTO) (*book.Book, error)
+	Return(request ReturnBookDTO) (*book.Book, error)
 }

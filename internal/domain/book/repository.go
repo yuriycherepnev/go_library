@@ -8,4 +8,6 @@ type Repository interface {
 	Create(title string, idAuthor int) (*Book, error)
 	Update(id int, title string, idAuthor *int) error
 	Delete(id int) error
+	Borrow(bookID int, readerID int) error
+	Return(bookID int) error
 }

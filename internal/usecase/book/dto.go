@@ -14,3 +14,12 @@ type UpdateBookDTO struct {
 type DeleteBookDTO struct {
 	Id int `json:"id"`
 }
+
+type BorrowBookDTO struct {
+	BookID   int `json:"book_id"`
+	ReaderID int `json:"reader_id"`
+}
+
+type ReturnBookDTO struct {
+	BookID int `json:"book_id"`
+}

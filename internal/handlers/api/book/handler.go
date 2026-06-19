@@ -42,7 +42,7 @@ func (h *handler) GetBookById(w http.ResponseWriter, r *http.Request, params htt
 			return
 		}
 
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -52,7 +52,7 @@ func (h *handler) GetBookById(w http.ResponseWriter, r *http.Request, params htt
 func (h *handler) GetAllBooks(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	books, err := h.bookService.GetAll()
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	handlers.WriteJSON(w, http.StatusOK, books)
@@ -78,7 +78,7 @@ func (h *handler) CreateBook(w http.ResponseWriter, r *http.Request, _ httproute
 
 	b, err := h.bookService.Create(request)
 	if err != nil {
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -114,7 +114,7 @@ func (h *handler) UpdateBook(w http.ResponseWriter, r *http.Request, params http
 			return
 		}
 
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -139,7 +139,24 @@ func (h *handler) DeleteBook(w http.ResponseWriter, r *http.Request, params http
 			return
 		}
 
-		handlers.WriteError(w, http.StatusInternalServerError, err.Error())
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	handlers.WriteJSON(w, http.StatusOK, b)
+}
+
+func (h *handler) BorrowBook(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var request book.BorrowBookDTO
+
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	b, err := h.bookService.Borrow(request)
+	if err != nil {
+		handlers.WriteError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
